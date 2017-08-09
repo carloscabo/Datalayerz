@@ -18,7 +18,7 @@ The `data-datalayer` must contain a **[valid JSON string](https://jsonlint.com/)
 data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"Search"}]'
 ````
 
-As you can see in the sample **the JSON object is an array**. This allows you to attach **several events to the same html element**, this may be helpful some times.
+As you can see in the sample **the JSON object is an array**. This allows you to attach **several events to the same html element**.
 
 ````html
 <!-- Binding 2 events (click, change) to the same element -->
@@ -134,9 +134,9 @@ Public function may always begin with `window.`. An Easy way to see if you funct
 
 ## 7. Make children elements to _inherit_ the event of its parent
 
-Sometimes you need that all of the children elements of one conatiner elemnt behave exactly the same way. To avoid repeat again and again the same `data-datalayer` attribute / settings you can use the special data-attr `data-datalayer-children`.
+Sometimes you need that **all the children elements of one container element behave exactly the same way.** To avoid repeat again and again the same `data-datalayer` attributes / settings you can use the special data-attr `data-datalayer-children`.
 
-In the following sample all the children ( **direct descendants!** ) of the `<ul>` elements send the link text.
+In the following sample all the children ( **direct descendants!** ) of the `<ul>` element send the link text.
 
 ````html
 <ul class="main-nav" data-datalayer-children='[{"trigger":"click", "eventCategory":"Menu","eventAction":"$(el).text()"}]' >
@@ -159,3 +159,7 @@ This is equivalent to:
   <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Personas y talento</a></li>
 </ul>
 ````
+
+# Troubleshooting
+
+# Changelog
