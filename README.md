@@ -7,22 +7,22 @@ Google Tag Manager (GTM) and datalayer events and variables manager.
 
 You must have your GTM correctly integrated with yout proyect. Please read carefully hot yo properly add GTM to your proyect.
 
-# Usage steps
+# Usage
 
-Include the JS library ( `datalayerz.js` ) in your project.
+Include the JS library `datalayerz.js` in your project.
 
-Add a `data-datalayer` attribute on those elements that you want to be binded to common events ( _click, change, ..._ ).
+Add a `data-datalayer` attribute on those **elements that you want to be binded** to common events ( _click, change, ..._ ).
 
-The `data-datalayer` must contain a **valid JSON string** that will define all the datalayer variables that will be sent and the **triggering event** also:
+The `data-datalayer` must contain a **[valid JSON string](https://jsonlint.com/)** that will define all the datalayer variables that will be sent and the **triggering event**:
 
 ````
 data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"Search"}]'
 ````
 
-As you can see in the sample the JSON object is an array. This allows you to attach several events to the same html element, that may be useful some times.
+As you can see in the sample the JSON object **is an array**. This allows you to attach several events to the same html element, that may be helpful some times.
 
 ````html
-<!-- Passing 2 events (click, change) to teh same element -->
+<!-- Binding 2 events (click, change) to the same element -->
 <select name="lang" id="main-lang" data-datalayer='[{"trigger":"change", "eventCategory":"Category1", "eventAction":"Language changed"}, {"trigger":"click", "eventCategory":"Category2", "eventAction":"Open lang selector"}]'>
   <option value="ES">ES</option>
   <option value="EN">EN</option>
@@ -54,11 +54,9 @@ The easiest GTM event binding:
 
 ## 3. Sending information from the html tag itself or other elements in page
 
-You can send some information from an element passing an string containing a _jQuery selector_ that will be evaluated when the event is triggered.
+You can send some information from an element passing an string containing a _jQuery selector_ that will be evaluated when the event is triggered. Refer to the element itself using the `$(el)` _magic selector_ :D
 
-You can refer to the element itself using the `$(el)` selector.
-
-Imagine that tou want to send a GTM variaable when user changes the language of the application. You can add a `data-datalayer` as follows:
+Imagine that tou want to send a GTM variable **when user changes the language of the application.** You can set a `data-datalayer` attribute this way:
 
 ````html
 <!-- Passing 2 events (click, change) to teh same element -->
@@ -81,10 +79,4 @@ And you can even send the content of any other attribute present in the element 
 
 | :warning: **Notice** |
 | :--- |
-| For security reasons you can execute a reduced subset of jQuery functions only!
-- .text()
-- .val()
-- .attr( "attribute" )
-- .data( "identifier" )
-
-|
+| For security reasons you can **execute a reduced subset of jQuery functions** only!: `.text()`, `.val()`, `.attr( \"attribute\" )`, `.data( \"identifier\" )` |
