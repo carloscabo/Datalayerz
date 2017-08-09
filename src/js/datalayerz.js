@@ -74,7 +74,10 @@
             m = val.match(/^{{(.*)}}$/),
 
             // jQuery method on element $el.text()
-            f = val.match(/^\$\((?:")?([^"]+)(?:")?\)\.(text|val|data|attr)\((?:")?([^"]+)?(?:")?\)$/);
+            f = val.match(/^\$\((?:")?([^"]+)(?:")?\)\.(text|val|data|attr)\((?:")?([^"]+)?(?:")?\)$/),
+
+            // Window function
+            w = val.match(/^window\.(.*)/)
 
           // Check for existance of dataLayer variable
           // {{page.hierarchy}}
@@ -111,8 +114,8 @@
           }
 
           // is a global function?
-          else if ( typeof window[key] === 'function') {
-            data_event_copy[key] = window[key]();
+          else if (w && w[0] && typeof window[w[0]] === 'function' ) {
+            data_event_copy[key] = window[w[0]]();
           }
 
         });

@@ -80,3 +80,78 @@ And you can even send the content of any other attribute present in the element 
 | :warning: **Notice** |
 | :--- |
 | For security reasons you can **execute a reduced subset of jQuery functions** only!: `.text()`, `.val()`, `.attr( \"attribute\" )`, `.data( \"identifier\" )` |
+
+## 4. Sending information from other elements in the page
+
+Use a valid jQuery selector on the JSON
+
+````html
+<input id="my-field" valur="Value">
+<a href="#" data-datalayer='[{"trigger":"click", "eventCategory":"Category", "eventAction":"Action", "eventLabel":"$(\"my-field\").val()"}]'>Send input value</a>
+````
+
+## 5. Sending information present in the datalayer of the page
+
+It's usual that sometime you need to send some information already present in the datalayer that is defined in the header of the page.
+
+````html
+<head>
+<script>
+  dataLayer = [{
+    'page.name': 'Name of the page',
+    'channel': 'web',
+    'environment.type': 'public',
+    //....
+````
+
+For sending any of this parameters / variables pass them surrounded by _double brackets_: `{{page.name}}`
+
+````html
+<a href="#" data-datalayer='[{"trigger":"click", "eventCategory":"Category", "eventAction":"Action", "eventLabel":"{{page.name}}"}]'>Send input value</a>
+````
+
+## 6. Calling a public function in the page to send the returned information
+
+Yo can define a public function in your app and send the vale returned by the function as param.
+
+````html
+<script>
+  // Be sure the funtion is global and if defined BEFORE calling it
+  window.my_function = function() {
+    return (new Date()).toString();
+  }
+````
+
+Call the function this way
+
+````html
+<a href="#" data-datalayer='[{"trigger":"click", "eventCategory":"Category", "eventAction":"Action", "eventLabel":"window.my_function"}]'>Send time of click</a>
+````
+
+## 7. Make childre to inherit the event of its parent
+
+Sometimes you need that all of the children elements of one behave the same way. To avoid reapint again and again the same `data-datalayer` attribute / settings you can use the special data-attr `data-datalayer-children`.
+
+In the following sample all the children ( direct descendants! ) of the `<ul>` elements send the link text.
+
+````html
+<ul class="main-nav" data-datalayer-children='[{"trigger":"click", "eventCategory":"Menu","eventAction":"$(el).text()"}]' >
+  <li class="active"><a href="">Compañía</a></li>
+  <li><a href="">Actividad</a></li>
+  <li><a href="">Sostenibilidad</a></li>
+  <li><a href="">Tecnología</a></li>
+  <li><a href="">Personas y talento</a></li>
+</ul>
+````
+
+This is equivalent to:
+
+````html
+<ul class="main-nav">
+  <li class="active" data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Compañía</a></li>
+  <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Actividad</a></li>
+  <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Sostenibilidad</a></li>
+  <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Tecnología</a></li>
+  <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Personas y talento</a></li>
+</ul>
+````
