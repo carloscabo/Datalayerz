@@ -4,7 +4,7 @@ Google Tag Manager (GTM) and datalayer events and variables manager.
 # Requirements
 
 - jQuery 1.7.1+
-- You must have your GTM [correctly integrated with yout project](https://developers.google.com/tag-manager/quickstart).
+- You must have your GTM [correctly integrated with your project](https://developers.google.com/tag-manager/quickstart).
 - If you must give support to IE9 / IE10 you must add the [MutationObserver polyfill](https://github.com/megawac/MutationObserver.js/tree/master)
 
 # Usage

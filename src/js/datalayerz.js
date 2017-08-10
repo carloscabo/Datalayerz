@@ -17,14 +17,15 @@
   }
 
   var
-    $doc = $(document);
+    $doc = $(document),
+    mutation_observer = null; // Mtation observer listener
 
-  function init($content) {
-    if (typeof $content === 'undefined') {
-      $content = $('body')
+  function init($container) {
+    if (typeof $container === 'undefined') {
+      $container = $('body');
     };
 
-    $content.find('[data-datalayer-children]').each(function (idx, el) {
+    $container.find('[data-datalayer-children]').each(function (idx, el) {
       var
         $el = $(el),
         data = $el.attr('data-datalayer-children');
@@ -37,7 +38,7 @@
       $el.removeAttr('data-datalayer-children'); //.removeData('datalayerChildren');
     });
 
-    $content.find('[data-datalayer]').each(function (idx, el) {
+    $container.find('[data-datalayer]').each(function (idx, el) {
       var
         dat = $(el).data('datalayer');
       // First evet has a trigger
@@ -46,15 +47,24 @@
       }
     });
 
+    // Attach MutatiooObserver listener if not done before
+    if (mutation_observer === null) {
+      attach_mo_listener();
+    }
+
   }
 
   function activate_events(el) {
-
     var
       // Element
       $el = $(el),
       // Original data unmodified
       data_events = $el.data('datalayer');
+
+    if ($el.data('Datalayerz')) {
+      // Element is already initialized -> Do nothing
+      return false;
+    }
 
     $.each(data_events, function (idx, data_event) {
 
@@ -127,11 +137,58 @@
 
     });
 
+    // Create data-attr
+    $el.data('Datalayerz', { 'inital': $el.attr('data-datalayer') });
+  }
+
+  // Attach mutation observer listener
+  function attach_mo_listener() {
+
+    if (!window.MutationObserver) {
+      console.error('datalayerz.js: Yout browser does not support MutationObserver!');
+      return false;
+    }
+
+    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+    // define a new observer
+    mutation_observer = new MutationObserver(function (mutations, observer) {
+      // look through all mutations that just occured
+      for (var i = 0; i < mutations.length; ++i) {
+        // look through all added nodes of this mutation
+        for (var j = 0; j < mutations[i].addedNodes.length; ++j) {
+          // was a child added with ID of 'bar'?
+          // if (mutations[i].addedNodes[j].id == "bar") {
+          var
+            $container = $(mutations[i].addedNodes[j]),
+            $d_els = $container.find('[data-datalayer-children], [data-datalayer]');
+          if ($d_els.length) {
+            init($container);
+            // console.log(mutations[i].addedNodes[j]);
+            // console.log( $container );
+          }
+        }
+      }
+    });
+
+    mutation_observer.observe($('body')[0], { childList: true, subtree: true });
+
+    // Later, you can stop observing
+    // mutation_observer.disconnect();
+
+  }
+
+  function destroy() {
+    if (mutation_observer !== null) {
+      mutation_observer.disconnect();
+    }
+    mutation_observer = null;
   }
 
   // Public methods
   window.Datalayerz = {
-    init: init
+    init: init,
+    destroy: destroy
   };
 
 }(jQuery));
