@@ -5,6 +5,7 @@ Google Tag Manager (GTM) and datalayer events and variables manager.
 
 - jQuery 1.7.1+
 - You must have your GTM [correctly integrated with yout project](https://developers.google.com/tag-manager/quickstart).
+- If you must give support to IE9 / IE10 you must add the [MutationObserver polyfill](https://github.com/megawac/MutationObserver.js/tree/master)
 
 # Usage
 
@@ -159,6 +160,21 @@ This is equivalent to:
   <li data-datalayer='[{"trigger":"click","eventCategory":"Menu","eventAction":"$(el).text()"}]'><a href="">Personas y talento</a></li>
 </ul>
 ````
+
+# More interesting or advanced samples
+
+Sending the **text** (not the value) of the current selected option in a select.
+
+````html
+<select id="my-select" data-datalayer='[{"trigger":"change","eventCategory":"Módulo de mapa","eventAction":"Filtro de actividades mapa","eventLabel":"$(\"#my-select option:selected\").text()"}]' >
+  <optgroup>
+    <option value="">Select option</option>
+    <option value='["ES","IT","PT"]'>European countries</option>
+`````
+
+---
+
+
 
 # Troubleshooting
 
