@@ -42,6 +42,13 @@
       var
         dat = $(el).data('datalayer');
       // First evet has a trigger
+      if (typeof dat !== 'object') {
+        console.group('datalayerz.js');
+        console.warn('Probably malformed data-datalayer attr!');
+        console.log($(el));
+        console.groupEnd();
+        return false;
+      }
       if (dat.length && typeof dat[0].trigger !== 'undefined') {
         activate_events(el);
       }
@@ -145,7 +152,9 @@
   function attach_mo_listener() {
 
     if (!window.MutationObserver) {
-      console.error('datalayerz.js: Yout browser does not support MutationObserver!');
+      console.group('datalayerz.js');
+      console.error('Yout browser does not support MutationObserver!');
+      console.groupEnd();
       return false;
     }
 
