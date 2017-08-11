@@ -122,7 +122,7 @@
                 str = $sel[f[2]]();
               }
             }
-            data_event_copy[key] = str;
+            data_event_copy[key] = $.trim(str);
 
           }
 
